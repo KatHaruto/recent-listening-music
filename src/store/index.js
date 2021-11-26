@@ -84,7 +84,17 @@ const actions = {
     commit("setLoading", { type, v: true });
     try {
       const res = await gasApi.fetch(yearMonth);
-      commit("setAbData", { yearMonth, list: res.data.data });
+      commit("setAbData", {
+        yearMonth,
+        list: Array.from(
+          res.data.data
+            .reduce(
+              (map, currentitem) => map.set(currentitem.imageUrl, currentitem),
+              new Map()
+            )
+            .values()
+        ),
+      });
     } catch (e) {
       commit("setErrorMessage", { message: e });
       commit("setAbData", { yearMonth, list: [] });

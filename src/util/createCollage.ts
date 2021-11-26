@@ -44,6 +44,3 @@ export const createCollage = async () => {
   const buffer = Buffer.from(arrayBuffer);
   return buffer;
 };
-function nodeFetch(url: RequestInfo, init: RequestInit): any {
-  throw new Error("Function not implemented.");
-}
