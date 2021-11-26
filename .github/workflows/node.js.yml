@@ -5,7 +5,7 @@ name: Node.js CI
 
 on:
   schedule:
-    - cron: '*/10 * * * *' 
+    - cron: '0 12 28-31 * *' 
 env:
   TWITTER_CONSUMER_KEY: ${{ secrets.TWITTER_CONSUMER_KEY }}
   TWITTER_CONSUMER_SECRET: ${{ secrets.TWITTER_CONSUMER_SECRET}}
@@ -24,4 +24,4 @@ jobs:
         node-version: 14
         cache: 'npm'
     - run: npm ci
-    - run: ./node_modules/.bin/ts-node src/util/tweet.ts
+    - run: usr/bin/test $(date -d '+1 day' +%d) -eq 1 && ./node_modules/.bin/ts-node src/util/tweet.ts
