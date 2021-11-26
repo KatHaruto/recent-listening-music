@@ -86,14 +86,17 @@ const actions = {
       const res = await gasApi.fetch(yearMonth);
       commit("setAbData", {
         yearMonth,
-        list: Array.from(
-          res.data.data
-            .reduce(
-              (map, currentitem) => map.set(currentitem.imageUrl, currentitem),
-              new Map()
+        list: res.data.data
+          ? Array.from(
+              res.data.data
+                .reduce(
+                  (map, currentitem) =>
+                    map.set(currentitem.imageUrl, currentitem),
+                  new Map()
+                )
+                .values()
             )
-            .values()
-        ),
+          : [],
       });
     } catch (e) {
       commit("setErrorMessage", { message: e });
