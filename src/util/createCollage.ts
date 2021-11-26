@@ -1,20 +1,22 @@
-import fs from "fs";
 import fetch from "node-fetch";
-import { fileTypeFromBuffer } from "file-type";
-import dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-const createCollage = async () => {
+type gasResponse = {
+  data: {
+    imageUrl: string;
+  }[];
+};
+export const createCollage = async () => {
   const yearMonth =
     new Date().getFullYear().toString() +
     "-" +
     (new Date().getMonth() + 1).toString();
   console.log(yearMonth);
 
-  let res = await fetch(
+  const respo = await fetch(
     `${process.env.SPREADSHEET_URL}?yearMonth=${yearMonth}`
   );
-  res = (await res.json()).data;
+  const res = ((await respo.json()) as gasResponse).data;
 
   let m = 1;
   while (m * m < res.length) {
@@ -27,7 +29,6 @@ const createCollage = async () => {
       return { url: "" };
     }
   });
-  fs.mkdirSync("./collage/image", { recursive: true });
   const response = await fetch("https://diary-app-six.vercel.app/api/collage", {
     method: "POST",
     headers: {
@@ -41,17 +42,8 @@ const createCollage = async () => {
   });
   const arrayBuffer = await response.arrayBuffer();
   const buffer = Buffer.from(arrayBuffer);
-  const fileType = await fileTypeFromBuffer(buffer);
-  if (fileType.ext) {
-    const outputFileName = `./collage/image/${yearMonth}.${fileType.ext}`;
-    if (!fs.existsSync(outputFileName)) {
-      fs.createWriteStream(outputFileName).write(buffer);
-    } else {
-      process.exit(1);
-    }
-  } else {
-    process.exit(1);
-  }
+  return buffer;
 };
-
-createCollage();
+function nodeFetch(url: RequestInfo, init: RequestInit): any {
+  throw new Error("Function not implemented.");
+}

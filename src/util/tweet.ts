@@ -1,5 +1,7 @@
-require("dotenv").config();
-const TwitterApi = require("twitter-api-v2").TwitterApi;
+import "dotenv/config";
+//import { createCollage } from "./createCollage";
+import { createCollage } from "./createCollage";
+import TwitterApi from "twitter-api-v2";
 // Instanciate with desired auth type (here's Bearer v2 auth)
 const tw = {
   appKey: process.env.TWITTER_CONSUMER_KEY,
@@ -15,10 +17,11 @@ const twitterClient = new TwitterApi(tw);
     new Date().getFullYear().toString() +
     "-" +
     (new Date().getMonth() + 1).toString();
+  const buffer: Buffer = await createCollage();
   try {
-    const mediaId = await twitterClient.v1.uploadMedia(
-      `../../collage/image/${yearMonth}.jpg`
-    );
+    const mediaId = await twitterClient.v1.uploadMedia(buffer, {
+      type: "Buffer",
+    });
     await twitterClient.v1.tweet(
       `Songs I heard in ${yearMonth}\nthis is automatically tweeted`,
       { media_ids: mediaId }
