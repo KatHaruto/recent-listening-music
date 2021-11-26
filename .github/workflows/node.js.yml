@@ -4,7 +4,8 @@
 name: Node.js CI
 
 on:
-  workflow_dispatch:
+  schedule:
+    - cron: 1 * * * * 
 env:
   TWITTER_CONSUMER_KEY: ${{ secrets.TWITTER_CONSUMER_KEY }}
   TWITTER_CONSUMER_SECRET: ${{ secrets.TWITTER_CONSUMER_SECRET}}
