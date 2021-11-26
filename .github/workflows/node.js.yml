@@ -4,9 +4,8 @@
 name: Node.js CI
 
 on:
-  workflow_dispatch:
-  #schedule:
-  #  - cron: '15 6 26 * *' 
+  schedule:
+    - cron: '0 12 28-31 * *' 
 env:
   TWITTER_CONSUMER_KEY: ${{ secrets.TWITTER_CONSUMER_KEY }}
   TWITTER_CONSUMER_SECRET: ${{ secrets.TWITTER_CONSUMER_SECRET}}
@@ -25,4 +24,4 @@ jobs:
         node-version: 14
         cache: 'npm'
     - run: npm ci
-    - run: /usr/bin/test $(date -d '+1 day' +%d) -eq 27 && ./node_modules/.bin/ts-node src/util/tweet.ts
+    - run: /usr/bin/test $(date -d '+1 day' +%d) -eq 1 && ./node_modules/.bin/ts-node src/util/tweet.ts
