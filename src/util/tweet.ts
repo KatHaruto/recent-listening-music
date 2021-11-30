@@ -22,10 +22,9 @@ const twitterClient = new TwitterApi(tw);
     const mediaId = await twitterClient.v1.uploadMedia(buffer, {
       type: "Buffer",
     });
-    await twitterClient.v1.tweet(
-      `Songs I heard in ${yearMonth}\nthis is automatically tweeted`,
-      { media_ids: mediaId }
-    );
+    await twitterClient.v1.tweet(`Songs I listend to in ${yearMonth}`, {
+      media_ids: mediaId,
+    });
   } catch (err) {
     console.error(err);
   }

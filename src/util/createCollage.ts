@@ -11,13 +11,19 @@ export const createCollage = async () => {
     new Date().getFullYear().toString() +
     "-" +
     (new Date().getMonth() + 1).toString();
-  console.log(yearMonth);
 
   const respo = await fetch(
     `${process.env.SPREADSHEET_URL}?yearMonth=${yearMonth}`
   );
-  const res = ((await respo.json()) as gasResponse).data;
-
+  let res = ((await respo.json()) as gasResponse).data;
+  res = Array.from(
+    res
+      .reduce(
+        (map, currentitem) => map.set(currentitem.imageUrl, currentitem),
+        new Map()
+      )
+      .values()
+  );
   let m = 1;
   while (m * m < res.length) {
     m += 1;
