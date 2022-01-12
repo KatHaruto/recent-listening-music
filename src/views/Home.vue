@@ -79,7 +79,7 @@ export default {
   data() {
     const today = new Date();
     const year = today.getFullYear();
-    const month = ("0" + (today.getMonth() + 1)).slice(-2);
+    const month = today.getMonth() + 1;
 
     return {
       /** 月選択メニューの状態 */
